@@ -257,8 +257,8 @@ def person_delete_clicked():
 
 
 def person_rename_clicked():
-    new_name, ok = QInputDialog().getText(QWidget(), "Edit Name", "New Name")
     person = ui.people_list.selectedItems()[0].person
+    new_name, ok = QInputDialog().getText(QWidget(), "Edit Name", "New Name", text=person.name)
     if ok:
         rename_person(person, new_name)
         refresh_people()
