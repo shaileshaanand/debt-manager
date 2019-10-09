@@ -1,0 +1,5 @@
+/dist/
+/debt_management.egg-info/
+/build/
+/venv/
+/debt_management/__pycache__/
