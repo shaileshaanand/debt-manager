@@ -314,11 +314,12 @@ def transactions_table_right_clicked(pos):
         transaction_dialog.exec_()
         transaction_dialog.show()
 
-    clicked_transaction: Transaction = ui.transactions_table.itemAt(pos).transaction
-    transaction_menu = QMenu()
-    transaction_menu.addAction("Delete", delete_clicked)
-    transaction_menu.addAction("Edit", edit_clicked)
-    transaction_menu.exec_(QCursor.pos())
+    if ui.transactions_table.itemAt(pos) is not None:
+        clicked_transaction: Transaction = ui.transactions_table.itemAt(pos).transaction
+        transaction_menu = QMenu()
+        transaction_menu.addAction("Delete", delete_clicked)
+        transaction_menu.addAction("Edit", edit_clicked)
+        transaction_menu.exec_(QCursor.pos())
 
 
 cur = None
