@@ -1,11 +1,12 @@
 import setuptools
+from debt_management.debt_management import version
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="debt_management",
-    version="0.0.6",
+    version=version,
     author="Shailesh Aanand",
     author_email="anaandshailu@gmail.com",
     description="An application to manage your debts.",

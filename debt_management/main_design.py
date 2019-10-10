@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'main.ui'
+# Form implementation generated from reading ui file 'debt_management.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.1
 #
@@ -78,16 +78,23 @@ class Ui_MainWindow(object):
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 719, 20))
         self.menubar.setObjectName("menubar")
+        self.menuAbout = QtWidgets.QMenu(self.menubar)
+        self.menuAbout.setObjectName("menuAbout")
         MainWindow.setMenuBar(self.menubar)
+        self.actionAbout = QtWidgets.QAction(MainWindow)
+        self.actionAbout.setObjectName("actionAbout")
+        self.menuAbout.addAction(self.actionAbout)
+        self.menubar.addAction(self.menuAbout.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.people_label.setText(_translate("MainWindow",
-                                             "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:600;\">People</span></p></body></html>"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Debt Manager"))
+        self.people_label.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span\n"
+                                                           "                                        style=\" font-size:12pt; font-weight:600;\">People</span></p></body></html>\n"
+                                                           "                                    "))
         self.add_person_button.setText(_translate("MainWindow", "+ Add"))
         self.new_transaction_button.setText(_translate("MainWindow", "New Transaction"))
         item = self.transactions_table.horizontalHeaderItem(0)
@@ -98,11 +105,12 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Type"))
         item = self.transactions_table.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Description"))
+        self.menuAbout.setTitle(_translate("MainWindow", "Help"))
+        self.actionAbout.setText(_translate("MainWindow", "About"))
 
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()

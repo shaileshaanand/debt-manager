@@ -9,10 +9,12 @@ from PyQt5.QtCore import *
 
 from .main_design import *
 from .new_transaction_dialog import *
+import about_us
 
 Person = namedtuple('Person', ['name', 'personid', 'total'])
 Transaction = namedtuple(
     'Transaction', ['id', 'personid', 'desc', 'amount', 'date'])
+version = "0.0.7"
 
 
 class PersonListWidgetItem(QListWidgetItem):
@@ -351,6 +353,11 @@ def main():
         ui.people_list.customContextMenuRequested.connect(person_right_clicked)
         ui.people_total_label.setAlignment(Qt.AlignCenter)
         current_person = None
+        about = QDialog()
+        about_us_ui = about_us.Ui_Dialog()
+        about_us_ui.setupUi(about)
+        about_us_ui.label.setText(about_us_ui.label.text().format(version))
+        ui.menuAbout.triggered.connect(about.show)
         MainWindow.show()
         refresh_people()
         sys.exit(app.exec_())
