@@ -363,6 +363,7 @@ def main():
         about_us_ui = about_us.Ui_Dialog()
         about_us_ui.setupUi(about)
         about_us_ui.label.setText(about_us_ui.label.text().format(version))
+        about_us_ui.label.setAlignment(Qt.AlignCenter)
         ui.menuAbout.triggered.connect(about.show)
         MainWindow.show()
         refresh_people()
