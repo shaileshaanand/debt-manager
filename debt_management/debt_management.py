@@ -352,7 +352,6 @@ def main():
         ui.people_list.setContextMenuPolicy(Qt.CustomContextMenu)
         ui.people_list.customContextMenuRequested.connect(person_right_clicked)
         ui.people_total_label.setAlignment(Qt.AlignCenter)
-        current_person = None
         about = QDialog()
         about_us_ui = about_us.Ui_Dialog()
         about_us_ui.setupUi(about)
