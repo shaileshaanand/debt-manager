@@ -145,6 +145,7 @@ def new_transaction():
     dui.setupUi(transaction_dialog)
     dui.amount.setValidator(QRegExpValidator(QRegExp("[0-9]+.[0-9]+")))
     dui.buttonBox.accepted.connect(new_transaction_accepted)
+    dui.amount.selectAll()
     transaction_dialog.exec_()
     transaction_dialog.show()
 
