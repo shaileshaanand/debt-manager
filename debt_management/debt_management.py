@@ -227,11 +227,14 @@ def refresh_transactions(person: Person):
         ui.transactions_table.setItem(i, 3, desc_item)
 
 
-def refresh_people():
+def refresh_people(person_item_to_return: int = None):
     ui.people_list.clear()
     people = get_people()
     for person in people:
-        ui.people_list.addItem(PersonListWidgetItem(person))
+        person_item = PersonListWidgetItem(person)
+        ui.people_list.addItem(person_item)
+        if person.personid == person_item_to_return:
+            cur_person_item = person_item
     total_amount = get_grand_total(people)
     if total_amount < 0.0:
         ui.people_total_label.setText(f'Total {-total_amount} to give.')
@@ -239,6 +242,8 @@ def refresh_people():
         ui.people_total_label.setText(f'Total {total_amount} to take.')
     else:
         ui.people_total_label.setText(f'No Overall Debt.')
+    if person_item_to_return is not None:
+        return cur_person_item
 
 
 def person_right_clicked(pos):
@@ -270,8 +275,8 @@ def person_rename_clicked():
     new_name, ok = QInputDialog().getText(QWidget(), "Edit Name", "New Name", text=person.name)
     if ok:
         rename_person(person, new_name)
-        refresh_people()
-        clear_transactions()
+        renamed_person = refresh_people(person.personid)
+        person_left_clicked(renamed_person)
 
 
 def get_QDate(date: str):
@@ -304,7 +309,8 @@ def transactions_table_right_clicked(pos):
                 Transaction(clicked_transaction.id, clicked_transaction.personid, dui.description.text(), amount,
                             dui.date.selectedDate().toString("yyyy-MM-dd")), prev_amount)
             refresh_transactions(get_person(clicked_transaction.personid))
-            refresh_people()
+            person_item = refresh_people(clicked_transaction.personid)
+            person_left_clicked(person_item)
 
         prev_amount = clicked_transaction.amount
         transaction_dialog = QtWidgets.QDialog()
