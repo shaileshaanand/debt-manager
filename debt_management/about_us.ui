@@ -6,8 +6,8 @@
             <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>400</width>
-                <height>120</height>
+                <width>453</width>
+                <height>133</height>
             </rect>
         </property>
         <property name="windowTitle">
@@ -29,6 +29,8 @@
                     <property name="text">
                         <string>Debt Manager version {}
                             Author : Shailesh Aanand
+                            Source Code : github.com/shaileshaanand/debt-management
+                            Released under the GPLv3 License
                             Notebook icon made by Smashicons from flaticon.com
                         </string>
                     </property>

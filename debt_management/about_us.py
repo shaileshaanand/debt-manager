@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(400, 120)
+        Dialog.resize(453, 133)
         self.gridLayout = QtWidgets.QGridLayout(Dialog)
         self.gridLayout.setObjectName("gridLayout")
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
@@ -35,12 +35,14 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "About Debt Manager"))
         self.label.setText(_translate("Dialog", "Debt Manager version {}\n"
                                                 "Author : Shailesh Aanand\n"
-                                                "Notebook icon made by Smashicons from flaticon.com"))
+                                                "Source Code : github.com/shaileshaanand/debt-management\n"
+                                                "Released under the GPLv3 License\n"
+                                                "Notebook icon made by Smashicons from flaticon.com\n"
+                                                ""))
 
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
     ui = Ui_Dialog()
