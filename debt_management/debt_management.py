@@ -367,6 +367,7 @@ def main():
         ui.new_transaction_button.clicked.connect(new_transaction)
         ui.transactions_table.setContextMenuPolicy(Qt.CustomContextMenu)
         ui.transactions_table.customContextMenuRequested.connect(transactions_table_right_clicked)
+        ui.transactions_table.verticalHeader().setVisible(False)
         ui.people_list.itemSelectionChanged.connect(person_selection_changed)
         ui.people_list.setContextMenuPolicy(Qt.CustomContextMenu)
         ui.people_list.customContextMenuRequested.connect(person_right_clicked)
