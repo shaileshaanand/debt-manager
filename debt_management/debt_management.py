@@ -135,11 +135,12 @@ def new_transaction():
             amount = float(dui.amount.text())
         else:
             amount = -float(dui.amount.text())
-        insert_transaction(Transaction(None, current_person.personid, dui.description.text(), amount,
+        insert_transaction(Transaction(None, clicked_person.personid, dui.description.text(), amount,
                                        dui.date.selectedDate().toString("yyyy-MM-dd")))
-        refresh_people()
-        refresh_transactions(current_person)
+        current_person_item = refresh_people(clicked_person.personid)
+        select_person(current_person_item)
 
+    clicked_person: Person = ui.people_list.selectedItems()[0].person
     transaction_dialog = QDialog()
     dui = Ui_Dialog()
     dui.setupUi(transaction_dialog)
@@ -174,13 +175,17 @@ def update_total_transaction_amount(transactions_total, name):
         ui.transactions_total_label.setText(f'Total ₹{transactions_total} due from {name}')
 
 
-def person_left_clicked(person_item):
-    global current_person
+def select_person(person_item: PersonListWidgetItem):
     person_item.setSelected(True)
-    if not ui.new_transaction_button.isEnabled():
-        ui.new_transaction_button.setEnabled(True)
-    current_person = person_item.person
     refresh_transactions(person_item.person)
+
+
+def person_selection_changed():
+    if len(ui.people_list.selectedItems()) != 0:
+        person_item = ui.people_list.selectedItems()[0]
+        if not ui.new_transaction_button.isEnabled():
+            ui.new_transaction_button.setEnabled(True)
+        refresh_transactions(person_item.person)
 
 
 def clear_transactions():
@@ -191,7 +196,7 @@ def clear_transactions():
 
 
 def refresh_transactions(person: Person):
-    transactions = get_transactions(current_person)
+    transactions = get_transactions(person)
     transactions_total = get_total(transactions)
     update_total_transaction_amount(transactions_total, person.name)
     ui.transactions_label.setText('Transactions for ' + person.name)
@@ -248,7 +253,7 @@ def refresh_people(person_item_to_return: int = None):
 
 def person_right_clicked(pos):
     if ui.people_list.itemAt(pos) is not None:
-        person_left_clicked(ui.people_list.itemAt(pos))
+        select_person(ui.people_list.itemAt(pos))
         menu = QMenu()
         menu.addAction(QApplication.style().standardIcon(QStyle.SP_TrashIcon), "Delete").triggered.connect(
             person_delete_clicked)
@@ -275,8 +280,8 @@ def person_rename_clicked():
     new_name, ok = QInputDialog().getText(QWidget(), "Edit Name", "New Name", text=person.name)
     if ok:
         rename_person(person, new_name)
-        renamed_person = refresh_people(person.personid)
-        person_left_clicked(renamed_person)
+        renamed_person_item = refresh_people(person.personid)
+        select_person(renamed_person_item)
 
 
 def get_QDate(date: str):
@@ -296,8 +301,9 @@ def transactions_table_right_clicked(pos):
         confirm_box.exec_()
         if confirm_box.clickedButton() == ok_button:
             delete_transaction(clicked_transaction)
-            refresh_transactions(get_person(clicked_transaction.personid))
-            refresh_people()
+            person_item = refresh_people(clicked_transaction.personid)
+            person_item.setSelected(True)
+            refresh_transactions(person_item.person)
 
     def edit_clicked():
         def edit_confirmed():
@@ -308,9 +314,9 @@ def transactions_table_right_clicked(pos):
             update_transaction(
                 Transaction(clicked_transaction.id, clicked_transaction.personid, dui.description.text(), amount,
                             dui.date.selectedDate().toString("yyyy-MM-dd")), prev_amount)
-            refresh_transactions(get_person(clicked_transaction.personid))
             person_item = refresh_people(clicked_transaction.personid)
-            person_left_clicked(person_item)
+            person_item.setSelected(True)
+            refresh_transactions(person_item.person)
 
         prev_amount = clicked_transaction.amount
         transaction_dialog = QtWidgets.QDialog()
@@ -361,7 +367,7 @@ def main():
         ui.new_transaction_button.clicked.connect(new_transaction)
         ui.transactions_table.setContextMenuPolicy(Qt.CustomContextMenu)
         ui.transactions_table.customContextMenuRequested.connect(transactions_table_right_clicked)
-        ui.people_list.itemClicked.connect(person_left_clicked)
+        ui.people_list.itemSelectionChanged.connect(person_selection_changed)
         ui.people_list.setContextMenuPolicy(Qt.CustomContextMenu)
         ui.people_list.customContextMenuRequested.connect(person_right_clicked)
         ui.people_total_label.setAlignment(Qt.AlignCenter)
