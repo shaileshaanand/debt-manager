@@ -145,6 +145,7 @@ def new_transaction():
     dui = Ui_Dialog()
     dui.setupUi(transaction_dialog)
     dui.amount.setValidator(QRegExpValidator(QRegExp("[0-9]+.[0-9]+")))
+    dui.groupBox.setTitle(f'New transaction for {clicked_person.name}')
     dui.buttonBox.accepted.connect(new_transaction_accepted)
     dui.amount.selectAll()
     transaction_dialog.exec_()
