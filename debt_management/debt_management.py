@@ -347,10 +347,11 @@ def transactions_table_right_clicked(pos):
 cur = None
 conn = None
 ui = None
+MainWindow = None
 
 
 def main():
-    global cur, conn, ui
+    global cur, conn, ui, MainWindow
     path = Path('~/.config/debt_management/').expanduser()
     file = Path('data.db')
     os.makedirs(path, exist_ok=True)
