@@ -14,7 +14,7 @@ from .about_us import Ui_Dialog as About_Ui_Dialog
 Person = namedtuple('Person', ['name', 'personid', 'total'])
 Transaction = namedtuple(
     'Transaction', ['id', 'personid', 'desc', 'amount', 'date'])
-version = "0.0.9"
+version = "0.0.10"
 
 
 class PersonListWidgetItem(QListWidgetItem):
