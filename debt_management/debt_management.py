@@ -344,6 +344,10 @@ def transactions_table_right_clicked(pos):
         transaction_menu.exec_(QCursor.pos())
 
 
+def source_code_link_clicked(link):
+    QDesktopServices.openUrl(QUrl(link))
+
+
 cur = None
 conn = None
 ui = None
@@ -379,6 +383,7 @@ def main():
         about_us_ui.setupUi(about)
         about_us_ui.label.setText(about_us_ui.label.text().format(version))
         about_us_ui.label.setAlignment(Qt.AlignCenter)
+        about_us_ui.source_code_link.linkActivated.connect(source_code_link_clicked)
         ui.menuAbout.triggered.connect(about.show)
         MainWindow.show()
         refresh_people()
