@@ -123,7 +123,7 @@ def rename_person(person: Person, new_name: str):
 
 
 def new_person():
-    name, ok = QInputDialog.getText(QWidget(), "New Person", "Name:", )
+    name, ok = QInputDialog.getText(MainWindow, "New Person", "Name:", )
     if ok:
         insert_person(Person(name, None, 0))
         refresh_people()
@@ -141,7 +141,7 @@ def new_transaction():
         select_person(current_person_item)
 
     clicked_person: Person = ui.people_list.selectedItems()[0].person
-    transaction_dialog = QDialog()
+    transaction_dialog = QDialog(MainWindow)
     dui = Ui_Dialog()
     dui.setupUi(transaction_dialog)
     dui.amount.setValidator(QRegExpValidator(QRegExp("[0-9]+.[0-9]+")))
@@ -264,7 +264,7 @@ def person_right_clicked(pos):
 
 def person_delete_clicked():
     person_name = ui.people_list.selectedItems()[0].person.name
-    confirm_box = QMessageBox()
+    confirm_box = QMessageBox(MainWindow)
     confirm_box.setText(
         f"Are you sure you want to delete {person_name}.\nAll transactions from {person_name} will be lost.")
     camcel_button = confirm_box.addButton(QMessageBox.Cancel)
@@ -278,7 +278,7 @@ def person_delete_clicked():
 
 def person_rename_clicked():
     person = ui.people_list.selectedItems()[0].person
-    new_name, ok = QInputDialog().getText(QWidget(), "Edit Name", "New Name", text=person.name)
+    new_name, ok = QInputDialog().getText(MainWindow, "Edit Name", "New Name", text=person.name)
     if ok:
         rename_person(person, new_name)
         renamed_person_item = refresh_people(person.personid)
@@ -294,7 +294,7 @@ def get_QDate(date: str):
 
 def transactions_table_right_clicked(pos):
     def delete_clicked():
-        confirm_box = QMessageBox()
+        confirm_box = QMessageBox(MainWindow)
         confirm_box.setText(
             f"Are you sure you want to delete the transaction:\n{clicked_transaction.desc}")
         camcel_button = confirm_box.addButton(QMessageBox.Cancel)
@@ -320,7 +320,7 @@ def transactions_table_right_clicked(pos):
             refresh_transactions(person_item.person)
 
         prev_amount = clicked_transaction.amount
-        transaction_dialog = QtWidgets.QDialog()
+        transaction_dialog = QtWidgets.QDialog(MainWindow)
         dui = Ui_Dialog()
         dui.setupUi(transaction_dialog)
         if clicked_transaction.amount >= 0:
@@ -374,7 +374,7 @@ def main():
         ui.people_list.setContextMenuPolicy(Qt.CustomContextMenu)
         ui.people_list.customContextMenuRequested.connect(person_right_clicked)
         ui.people_total_label.setAlignment(Qt.AlignCenter)
-        about = QDialog()
+        about = QDialog(MainWindow)
         about_us_ui = About_Ui_Dialog()
         about_us_ui.setupUi(about)
         about_us_ui.label.setText(about_us_ui.label.text().format(version))
